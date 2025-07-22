@@ -3,7 +3,6 @@ from discord import app_commands
 import datetime
 import asyncio
 import aiohttp
-import requests
 
 # Your bot token here (DO NOT share this publicly!)
 TOKEN = "MTM2NTc0NTg0MzczNDQ0NjA5MA.GOeSeF.eO1Y3A57MAHwhSu5mfNPctkwZFelc7LlUjoZ2Q"
@@ -38,7 +37,8 @@ ACTION_CONFIG = {
     "LOA": {"format": "placed on **Leave of Absence** on behalf of the **Metropolitan Police Service**", "color": 0x95A5A6},
     "blacklist": {"format": "blacklisted from the **Metropolitan Police Service**", "color": 0x000000},
     "strike_remove": {"format": "had their strike removed on behalf of the **Metropolitan Police Service**", "color": 0x2ECC71},
-    "unblacklisted": {"format": "unblacklisted from the **Metropolitan Police Service**", "color": 0x3498DB}
+    "unblacklisted": {"format": "unblacklisted from the **Metropolitan Police Service**", "color": 0x3498DB},
+    "reinstate": {"format": "reinstated to the rank of **{rank}** on behalf of the **Metropolitan Police Service**", "color": 0x1ABC9C, "requires_rank": True}
 }
 
 RANK_CHOICES = [
@@ -51,7 +51,12 @@ RANK_CHOICES = [
     app_commands.Choice(name="Chief Superintendent", value="Chief Superintendent"),
     app_commands.Choice(name="Commander", value="Commander"),
     app_commands.Choice(name="Assistant Chief Constable", value="Assistant Chief Constable"),
-    app_commands.Choice(name="Deputy Chief Constable", value="Deputy Chief Constable")
+    app_commands.Choice(name="Deputy Chief Constable", value="Deputy Chief Constable"),
+    app_commands.Choice(name="Chief Constable", value="Chief Constable"),
+    app_commands.Choice(name="Deputy Assistant Commissioner", value="Deputy Assistant Commissioner"),
+    app_commands.Choice(name="Assistant Commissioner", value="Assistant Commissioner"),
+    app_commands.Choice(name="Deputy Commissioner", value="Deputy Commissioner"),
+    app_commands.Choice(name="Commissioner", value="Commissioner")
 ]
 
 async def fetch_roblox_thumbnail(username: str):
@@ -132,7 +137,8 @@ async def on_ready():
         app_commands.Choice(name="Leave of Absence", value="LOA"),
         app_commands.Choice(name="Blacklist", value="blacklist"),
         app_commands.Choice(name="Remove Strike", value="strike_remove"),
-        app_commands.Choice(name="Unblacklist", value="unblacklisted")
+        app_commands.Choice(name="Unblacklist", value="unblacklisted"),
+        app_commands.Choice(name="Reinstate", value="reinstate")
     ],
     rank=RANK_CHOICES
 )
